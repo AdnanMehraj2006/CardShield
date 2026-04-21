@@ -20,13 +20,33 @@ const modalMessage = document.getElementById("modalMessage");
 // CARD TYPE DETECTION (GLOBAL)
 // ===============================
 function detectCardType(num) {
+  // remove spaces
+  num = num.replace(/\s/g, "");
+
+  // ---- VISA ----
   if (/^4/.test(num)) return "VISA";
-  if (/^(5[1-5])/.test(num)) return "MASTERCARD";
+
+  // ---- MASTERCARD ----
+  if (/^(5[1-5])/.test(num) || /^(2221|2720|2[3-6]|27[0-1])/.test(num))
+    return "MASTERCARD";
+
+  // ---- AMEX ----
   if (/^(34|37)/.test(num)) return "AMEX";
-  if (/^(6011|65|64[4-9]|622)/.test(num)) return "DISCOVER";
-  if (/^(60|65|81|82)/.test(num)) return "RUPAY";
-  if (/^(35)/.test(num)) return "JCB";
-  if (/^(30[0-5]|36|38)/.test(num)) return "DINERS";
+
+  // ---- RUPAY (IMPORTANT FIX) ----
+  if (/^(508|60|65|81|82)/.test(num)) return "RUPAY";
+
+  // ---- DISCOVER (AFTER RUPAY) ----
+  if (/^(6011|644|645|646|647|648|649)/.test(num))
+    return "DISCOVER";
+
+  // ---- JCB ----
+  if (/^35/.test(num)) return "JCB";
+
+  // ---- DINERS ----
+  if (/^(300|301|302|303|304|305|36|38)/.test(num))
+    return "DINERS";
+
   return "UNKNOWN";
 }
 
