@@ -1,0 +1,664 @@
+/* =============================================
+   CardShield – Smart Card Validator
+   style.css
+   ============================================= */
+
+/* ---- Reset & Base ---- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-deep:       #0a0c12;
+  --bg-surface:    #0f1219;
+  --bg-panel:      rgba(255,255,255,0.04);
+  --bg-panel-hov:  rgba(255,255,255,0.06);
+  --border:        rgba(255,255,255,0.08);
+  --border-focus:  rgba(96,165,250,0.5);
+
+  --accent:        #3b82f6;
+  --accent-light:  #60a5fa;
+  --accent-glow:   rgba(59,130,246,0.25);
+
+  --success:       #22c55e;
+  --success-bg:    rgba(34,197,94,0.1);
+  --error:         #ef4444;
+  --error-bg:      rgba(239,68,68,0.1);
+  --warn:          #f59e0b;
+  --warn-bg:       rgba(245,158,11,0.1);
+
+  --text-primary:  #f0f4ff;
+  --text-secondary:#8892a4;
+  --text-muted:    #4a5568;
+
+  --card-grad-1:   #1a2540;
+  --card-grad-2:   #0f1929;
+
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  20px;
+  --radius-xl:  28px;
+
+  --shadow-panel: 0 24px 60px rgba(0,0,0,0.5), 0 8px 20px rgba(0,0,0,0.3);
+  --shadow-card:  0 30px 80px rgba(0,0,0,0.6), 0 8px 24px rgba(0,0,0,0.4);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Background Mesh ---- */
+.bg-mesh {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 10%, rgba(59,130,246,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 80%, rgba(99,102,241,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(14,165,233,0.04) 0%, transparent 70%);
+}
+
+/* ---- Page Wrapper ---- */
+.page-wrapper {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 20px 64px;
+  gap: 48px;
+}
+
+/* =============================================
+   HEADER
+   ============================================= */
+.site-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.25);
+  border-radius: 100px;
+  padding: 5px 14px 5px 10px;
+  color: var(--accent-light);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.shield-icon {
+  display: flex;
+  align-items: center;
+}
+
+.site-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  background: linear-gradient(135deg, #e8eeff 0%, #93c5fd 50%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.site-subtitle {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+/* =============================================
+   MAIN LAYOUT
+   ============================================= */
+.main-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  width: 100%;
+  max-width: 860px;
+  align-items: start;
+}
+
+/* =============================================
+   CARD PREVIEW
+   ============================================= */
+.card-preview-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 16px;
+}
+
+.card-preview {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 1.586 / 1;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--card-grad-1) 0%, var(--card-grad-2) 100%);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: var(--shadow-card);
+  padding: 28px 28px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-preview:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 40px 90px rgba(0,0,0,0.7), 0 12px 30px rgba(59,130,246,0.12);
+}
+
+.card-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  background: radial-gradient(ellipse at 30% 20%, rgba(59,130,246,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Card top row */
+.card-preview > *:first-child { position: relative; z-index: 1; }
+
+.card-chip {
+  width: 36px;
+  height: 28px;
+}
+
+.card-network {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.75);
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.network-label { white-space: nowrap; }
+
+/* Card number */
+.card-number-preview {
+  font-family: var(--font-mono);
+  font-size: clamp(16px, 2.4vw, 20px);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.9);
+  position: relative;
+  z-index: 1;
+  transition: all 0.2s ease;
+}
+
+/* Card meta (expiry) */
+.card-meta {
+  display: flex;
+  gap: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.card-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.meta-label {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+
+.meta-value {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.1em;
+  transition: all 0.2s ease;
+}
+
+/* Card type brand colors */
+.card-preview.visa-card {
+  background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #1565c0 100%);
+}
+.card-preview.mastercard-card {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+.card-preview.amex-card {
+  background: linear-gradient(135deg, #006064 0%, #00838f 50%, #00acc1 100%);
+}
+.card-preview.rupay-card {
+  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #388e3c 100%);
+}
+
+/* =============================================
+   VALIDATOR PANEL
+   ============================================= */
+.validator-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-panel);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-header {
+  padding: 28px 28px 0;
+}
+
+.panel-header h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.panel-header p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  font-weight: 300;
+}
+
+.form-body {
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ---- Field Groups ---- */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  flex: 1;
+}
+
+.field-group label {
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 8px;
+  align-items: end;
+}
+
+.field-divider {
+  font-size: 20px;
+  color: var(--text-muted);
+  padding-bottom: 10px;
+  text-align: center;
+  font-weight: 300;
+}
+
+/* ---- Inputs ---- */
+.input-wrap {
+  position: relative;
+}
+
+.field-input {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 40px 11px 14px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.04em;
+}
+
+.field-input::placeholder {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+.field-input:focus {
+  border-color: var(--border-focus);
+  background: rgba(59,130,246,0.04);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.input-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* ---- Card Type Badge ---- */
+.card-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  min-height: 16px;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.card-type-badge.visible {
+  opacity: 1;
+}
+
+.card-type-badge::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  flex-shrink: 0;
+}
+
+/* ---- Validate Button ---- */
+.validate-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 13px 24px;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(59,130,246,0.35);
+  width: 100%;
+  margin-top: 4px;
+}
+
+.validate-btn:hover {
+  background: var(--accent-light);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 28px rgba(59,130,246,0.45);
+}
+
+.validate-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 12px rgba(59,130,246,0.3);
+}
+
+.btn-arrow {
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.validate-btn:hover .btn-arrow {
+  transform: translateX(3px);
+}
+
+/* ---- Panel Footer ---- */
+.panel-footer {
+  border-top: 1px solid var(--border);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.docs-link {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 400;
+  transition: color 0.2s;
+  letter-spacing: 0.01em;
+}
+
+.docs-link:hover { color: var(--accent-light); }
+
+.footer-divider {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.footer-note {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+/* =============================================
+   MODAL
+   ============================================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(5, 7, 14, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-box {
+  background: #141824;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 40px 36px 36px;
+  max-width: 380px;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+  transform: scale(0.92) translateY(12px);
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+  opacity: 0;
+}
+
+.modal-overlay.active .modal-box {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.modal-close:hover {
+  background: var(--bg-panel-hov);
+  color: var(--text-primary);
+}
+
+.modal-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 26px;
+}
+
+.modal-icon.success { background: var(--success-bg); color: var(--success); border: 1px solid rgba(34,197,94,0.2); }
+.modal-icon.error   { background: var(--error-bg);   color: var(--error);   border: 1px solid rgba(239,68,68,0.2); }
+.modal-icon.warn    { background: var(--warn-bg);    color: var(--warn);    border: 1px solid rgba(245,158,11,0.2); }
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.modal-message {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-weight: 300;
+  margin-bottom: 28px;
+}
+
+.modal-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 28px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.modal-btn:hover {
+  background: var(--bg-panel-hov);
+  border-color: rgba(255,255,255,0.15);
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 700px) {
+  .page-wrapper {
+    padding: 36px 16px 56px;
+    gap: 36px;
+  }
+
+  .main-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .card-preview-wrap {
+    padding-top: 0;
+  }
+
+  .card-preview {
+    max-width: 100%;
+  }
+
+  .card-number-preview {
+    font-size: 15px;
+    letter-spacing: 0.15em;
+  }
+
+  .panel-header { padding: 22px 20px 0; }
+  .form-body    { padding: 20px 20px; }
+  .panel-footer { padding: 12px 20px; }
+
+  .modal-box {
+    padding: 32px 24px 28px;
+  }
+}
+
+@media (max-width: 400px) {
+  .field-row {
+    grid-template-columns: 1fr auto 1fr;
+    gap: 6px;
+  }
+
+  .card-number-preview {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+  }
+}
+
+/* =============================================
+   UTILITY
+   ============================================= */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
