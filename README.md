@@ -84,7 +84,7 @@ This project is built for:
 
 ## 🔗 Live Demo
 
-*(https://visitcardshield.pages.dev/)*
+*https://visitcardshield.pages.dev*
 
 ---
 
